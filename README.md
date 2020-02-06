@@ -1,22 +1,11 @@
-# <%Calculator%>
+# RS React Calculator
 
-## History
+The calculator calculates base payment values to lease or loan a car. Taxes calculate based on zip code; monthly payment calculates based on term, mileage, credit score, apr, down payment and trade-in. Dealer is a person who sells a car. MSRP - Manufacturers Suggested Retail Price.
 
-## Task
+## Quick start
 
-For example:
-```js
-```
-
-Write your code in `src/index.js.
-*All test cases are designed as “error-free”, so don't worry about handling any errors.*
-
-## Prepare
-1. To install all dependencies use [`npm install`](https://docs.npmjs.com/cli/install)  
-
-## Submit to [rs app](https://app.rs.school)
-1. Open [rs app](https://app.rs.school) and login
-2. Go to [submit task page](https://app.rs.school/course/submit-task?course=#)
-3. Select your task (<%TASK_NAME%>)
-4. Press the submit button and enjoy
+Run in console the following commands:
+1. npm i
+2. npm start
+3. Enjoy :)
 
