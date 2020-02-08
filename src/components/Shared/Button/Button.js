@@ -3,15 +3,20 @@ import {MDCRipple} from '@material/ripple';
 import PropTypes from 'prop-types';
 
 class Button extends Component {
+  _node;
+
   componentDidMount() {
-    new MDCRipple(document.querySelector('.mdc-button'));
+    new MDCRipple(this._node);
   }
 
   render() {
     const className =
-      `mdc-button ${this.props.raised ? 'mdc-button--raised' : ''}`;
+      `mdc-button 
+      ${this.props.raised ? 'mdc-button--raised' : ''}
+      ${this.props.outlined ? 'mdc-button--outlined' : ''}`;
     return (
       <button type="button"
+        ref={(c) => this._node = c}
         className={className}
         disabled={this.props.disabled}
         onClick={this.props.onClick}
@@ -29,6 +34,7 @@ Button.propTypes = {
   label: PropTypes.string,
   raised: PropTypes.bool,
   disabled: PropTypes.bool,
+  outlined: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

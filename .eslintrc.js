@@ -20,6 +20,7 @@ module.exports = {
   },
   'plugins': [
     'react',
+    'class-property',
   ],
   'rules': {
     'require-jsdoc': 0

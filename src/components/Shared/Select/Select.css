@@ -1,0 +1,4 @@
+.rs-select--fullwidth .mdc-select__anchor,
+.rs-select--fullwidth .mdc-select__menu {
+  width: 100%;
+}
