@@ -27,4 +27,10 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  resolve: {
+    alias: {
+      '/src': path.join(__dirname, './src'),
+    },
+  },
+  devtool: 'eval-source-map',
 };
