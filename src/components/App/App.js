@@ -2,12 +2,30 @@ import React, {Component, Fragment} from 'react';
 import TabBar from '/src/components/Shared/TabBar/TabBar.js';
 import Loan from '/src/components/Loan/Loan.js';
 import Lease from '/src/components/Lease/Lease.js';
+import InfoCard from '/src/components/InfoCard/InfoCard.js';
 
+import MockInfoData from '/src/data/info.js';
 import './App.css';
 
 class App extends Component {
   state = {
     activeTab: 'Loan',
+    calculator: {
+      downPayment: 0,
+      tradeIn: 0,
+      creditScore: 750,
+      loan: {
+        apr: 0,
+        postCode: '220100',
+        terms: 24,
+      },
+      lease: {
+        postCode: '220100',
+        terms: 36,
+        mileages: 12000,
+      }
+    },
+    info: null,
   };
 
   tabs = [
@@ -19,6 +37,24 @@ class App extends Component {
     super(props);
 
     this.onActiveTabChanged = this.onActiveTabChanged.bind(this);
+  }
+
+  async componentDidMount() {
+    this.setState({
+      info: {
+        fetching: true,
+      },
+    });
+    const infoData = await new Promise((resolve) => {
+      setTimeout(() => resolve(MockInfoData), 3000);
+    });
+
+    this.setState({
+      info: {
+        ...infoData,
+        fetching: false,
+      },
+    });
   }
 
   onActiveTabChanged(index) {
@@ -52,13 +88,18 @@ class App extends Component {
           <div className="mdc-layout-grid">
             <div className="mdc-layout-grid__inner">
               <div className="mdc-layout-grid__cell--span-2"></div>
-              <div className="mdc-layout-grid__cell--span-8">
+              <div className="mdc-layout-grid__cell--span-5">
                 <TabBar 
                   active={this.state.activeTab}
                   tabs={this.tabs}
                   onActiveChanged={this.onActiveTabChanged}
                 ></TabBar>
                 {tabContent}
+              </div>
+              <div className="mdc-layout-grid__cell--span-3">
+                <InfoCard
+                  info={this.state.info}
+                ></InfoCard>
               </div>
               <div className="mdc-layout-grid__cell--span-2"></div>
             </div>
