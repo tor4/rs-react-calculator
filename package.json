@@ -20,6 +20,7 @@
   "homepage": "https://github.com/tor4/rs-react-calculator#readme",
   "dependencies": {
     "babel-eslint": "^10.0.3",
+    "lodash.debounce": "^4.0.8",
     "material-components-web": "^4.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

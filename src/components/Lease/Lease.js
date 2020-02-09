@@ -3,6 +3,15 @@ import TextField from '/src/components/Shared/TextField/TextField.js';
 import Select from '/src/components/Shared/Select/Select.js';
 
 class Lease extends Component {
+  state = {
+    downPayment: 0,
+    tradeIn: 0,
+    postCode: '220100',
+    terms: 36,
+    mileages: 12000,
+    creditScore: 750,
+  };
+
   render() {
     return (
       <div>

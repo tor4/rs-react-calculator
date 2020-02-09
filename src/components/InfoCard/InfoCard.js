@@ -16,7 +16,7 @@ class InfoCard extends Component {
       );
     }
 
-    const {msrp, name, monthly, taxes, dealer} = this.props.info;
+    const {msrp, name, monthlyPayment, taxes, dealer} = this.props.info;
     return (
       <div className="mdc-card">
         <div className="mdc-list mdc-list--non-interactive">
@@ -32,13 +32,13 @@ class InfoCard extends Component {
           <div className="mdc-list-item rs-monthly">
             <span className="mdc-list-item__text">Monthly payment</span>
             <span className="mdc-list-item__meta" aria-hidden="true">
-              {monthly === 0 ? '-' : '$' + monthly}
+              {!monthlyPayment ? '-' : '$' + monthlyPayment}
             </span>
           </div>
           <div className="mdc-list-item">
             <span className="mdc-list-item__text">Taxes</span>
             <span className="mdc-list-item__meta" aria-hidden="true">
-              {taxes === 0 ? '-' : '$' + taxes}
+              {taxes === 0 ? '-' : taxes.join('.')}
             </span>
           </div>
           <div className="mdc-list-item">

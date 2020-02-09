@@ -3,6 +3,8 @@ import TabBar from '/src/components/Shared/TabBar/TabBar.js';
 import Loan from '/src/components/Loan/Loan.js';
 import Lease from '/src/components/Lease/Lease.js';
 import InfoCard from '/src/components/InfoCard/InfoCard.js';
+import DelayedPromise from '/src/utils/DelayedPromise.js';
+import {calculateLoan, calculateLease} from '/src/utils/calculator_utils.js';
 
 import MockInfoData from '/src/data/info.js';
 import './App.css';
@@ -11,15 +13,18 @@ class App extends Component {
   state = {
     activeTab: 'Loan',
     calculator: {
-      downPayment: 0,
-      tradeIn: 0,
-      creditScore: 750,
       loan: {
+        downPayment: 0,
+        tradeIn: 0,
+        creditScore: 750,
         apr: 0,
         postCode: '220100',
         terms: 24,
       },
       lease: {
+        downPayment: 0,
+        tradeIn: 0,
+        creditScore: 750,
         postCode: '220100',
         terms: 36,
         mileages: 12000,
@@ -37,6 +42,8 @@ class App extends Component {
     super(props);
 
     this.onActiveTabChanged = this.onActiveTabChanged.bind(this);
+    this.calculateLoan = this.calculateLoan.bind(this);
+    this.calculateLease = this.calculateLease.bind(this);
   }
 
   async componentDidMount() {
@@ -45,8 +52,9 @@ class App extends Component {
         fetching: true,
       },
     });
-    const infoData = await new Promise((resolve) => {
-      setTimeout(() => resolve(MockInfoData), 3000);
+
+    const infoData = await new DelayedPromise((resolve) => {
+      resolve(MockInfoData);
     });
 
     this.setState({
@@ -55,6 +63,10 @@ class App extends Component {
         fetching: false,
       },
     });
+
+    if (this.state.activeTab === 'Loan') {
+      this.calculateLoan();
+    }
   }
 
   onActiveTabChanged(index) {
@@ -63,13 +75,52 @@ class App extends Component {
     });
   }
 
+  async calculateLoan(data) {
+    if (data) {
+      this.setState({
+        calculator: {
+          loan: data,
+          lease: {
+            ...this.state.calculator.lease,
+            downPayment: data.downPayment,
+            tradeIn: data.tradeIn,
+            creditScore: data.creditScore,
+          },
+        },
+      });
+    }
+
+    const {monthlyPayment, taxes} = await calculateLoan({
+      ...(data || this.state.calculator.loan),
+      msrp: this.state.info.msrp,
+    }, 1000);
+
+    this.setState({
+      info: {
+        ...this.state.info,
+        monthlyPayment,
+        taxes,
+      },
+    });
+  }
+
+  calculateLease(data) {
+
+  }
+
   render() {
     const {activeTab} = this.state;
     let tabContent;
     if (activeTab === 'Loan') {
-      tabContent = (<Loan></Loan>)
+      tabContent = (<Loan 
+        initial={this.state.calculator.loan} 
+        onChange={this.calculateLoan}
+      ></Loan>)
     } else if (activeTab === 'Lease') {
-      tabContent = (<Lease></Lease>)
+      tabContent = (<Lease 
+        initial={this.state.calculator.lease} 
+        onChange={this.calculateLease}
+      ></Lease>)
     }
     
     return (
