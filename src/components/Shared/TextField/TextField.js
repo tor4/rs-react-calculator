@@ -6,9 +6,14 @@ import './TextField.css';
 
 class TextField extends Component {
   _node;
+  _mdcComponent;
 
   componentDidMount() {
-    new MDCTextField(this._node);
+    this._mdcComponent = new MDCTextField(this._node);
+  }
+
+  componentWillUnmount() {
+    this._mdcComponent.destroy();
   }
 
   render() {

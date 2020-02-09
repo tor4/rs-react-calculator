@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 
 class Button extends Component {
   _node;
+  _mdcComponent;
 
   componentDidMount() {
-    new MDCRipple(this._node);
+    this._mdcComponent = new MDCRipple(this._node);
+  }
+
+  componentWillUnmount() {
+    this._mdcComponent.destroy();
   }
 
   render() {

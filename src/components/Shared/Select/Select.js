@@ -6,13 +6,20 @@ import './Select.css';
 
 class Select extends Component {
   _node;
+  _mdcComponent;
 
   componentDidMount() {
-    const select = new MDCSelect(this._node);
+    this._mdcComponent = new MDCSelect(this._node);
+    this._mdcComponent.listen('MDCSelect:change', this.onValueChanged);
+  }
 
-    select.listen('MDCSelect:change', () => {
-      console.error(`Selected option at index ${select.selectedIndex} with value "${select.value}"`);
-    });
+  componentWillUnmount() {
+    this._mdcComponent.unlisten('MDCSelect:change', this.onValueChanged);
+    this._mdcComponent.destroy();
+  }
+
+  onValueChanged({value}) {
+    this.props.onValueChanged(value);
   }
 
   render() {
@@ -52,6 +59,13 @@ class Select extends Component {
 Select.propTypes = {
   label: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.object),
+  onValueChanged: PropTypes.func,
 };
+
+Select.defaultProps = {
+  label: '',
+  items: [],
+  onValueChanged: () => {},
+}
 
 export default Select;
