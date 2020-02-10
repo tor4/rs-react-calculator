@@ -5,6 +5,7 @@ import Lease from '/src/components/Lease/Lease.js';
 import InfoCard from '/src/components/InfoCard/InfoCard.js';
 import DelayedPromise from '/src/utils/DelayedPromise.js';
 import {calculateLoan, calculateLease} from '/src/utils/calculator_utils.js';
+import {getPostCode} from '/src/services/ip-info_service.js';
 
 import MockInfoData from '/src/data/info.js';
 import './App.css';
@@ -47,10 +48,41 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    await this.restoreData();
+    await this.loadInfo();
+
+    this.calculate();
+  }
+
+  calculate() {
+    if (this.state.activeTab === 'Loan') {
+      this.calculateLoan();
+    } else {
+      this.calculateLease();
+    }
+  }
+
+  async restoreData() {
+    const postCode = await getPostCode();
+
     this.setState({
-      info: {
-        fetching: true,
+      initialized: true,
+      calculator: {
+        lease: {
+          ...this.state.calculator.lease,
+          postCode: postCode,
+        },
+        loan: {
+          ...this.state.calculator.loan,
+          postCode: postCode,
+        },
       },
+    });
+  }
+
+  async loadInfo() {
+    this.setState({
+      info: {fetching: true,},
     });
 
     const infoData = await new DelayedPromise((resolve) => {
@@ -63,16 +95,6 @@ class App extends Component {
         fetching: false,
       },
     });
-
-    this.calculate();
-  }
-
-  calculate() {
-    if (this.state.activeTab === 'Loan') {
-      this.calculateLoan();
-    } else {
-      this.calculateLease();
-    }
   }
 
   onActiveTabChanged(index) {
@@ -145,17 +167,23 @@ class App extends Component {
     const {activeTab} = this.state;
     let tabContent;
     if (activeTab === 'Loan') {
-      tabContent = (<Loan
-        msrp={this.state.info?.msrp}
-        initial={this.state.calculator.loan} 
-        onChange={this.calculateLoan}
-      ></Loan>)
+      tabContent = (
+        <Loan
+          key={this.state.initialized}
+          msrp={this.state.info?.msrp}
+          initial={this.state.calculator.loan} 
+          onChange={this.calculateLoan}
+        ></Loan>
+      );
     } else if (activeTab === 'Lease') {
-      tabContent = (<Lease
-        msrp={this.state.info?.msrp}
-        initial={this.state.calculator.lease} 
-        onChange={this.calculateLease}
-      ></Lease>)
+      tabContent = (
+        <Lease
+          key={this.state.initialized}
+          msrp={this.state.info?.msrp}
+          initial={this.state.calculator.lease} 
+          onChange={this.calculateLease}
+        ></Lease>
+      );
     }
     
     return (
