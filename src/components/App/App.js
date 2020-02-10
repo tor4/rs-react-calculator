@@ -112,12 +112,14 @@ class App extends Component {
     const {activeTab} = this.state;
     let tabContent;
     if (activeTab === 'Loan') {
-      tabContent = (<Loan 
+      tabContent = (<Loan
+        msrp={this.state.info?.msrp}
         initial={this.state.calculator.loan} 
         onChange={this.calculateLoan}
       ></Loan>)
     } else if (activeTab === 'Lease') {
-      tabContent = (<Lease 
+      tabContent = (<Lease
+        msrp={this.state.info?.msrp}
         initial={this.state.calculator.lease} 
         onChange={this.calculateLease}
       ></Lease>)

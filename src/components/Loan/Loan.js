@@ -27,7 +27,7 @@ class Loan extends Component {
 
   onChange(field, value) {
     this.setState({
-      [field]: +value,
+      [field]: value,
     });
 
     this.dataChangedDebounced();
@@ -35,6 +35,8 @@ class Loan extends Component {
 
   render() {
     const state = this.state;
+    const {msrp} = this.props;
+    const max = ((msrp || 0)/4).toFixed(2);
 
     const terms = [12, 24, 36, 48, 60, 72, 84].map((term, i) => {
       return (
@@ -68,7 +70,9 @@ class Loan extends Component {
               type='number'
               label="Down Payment"
               value={state.downPayment}
-              onChange={(value) => this.onChange('downPayment', value)}
+              min={0}
+              max={max}
+              onChange={(value) => this.onChange('downPayment', +value)}
             ></TextField>
           </div>
           <div className="mdc-layout-grid__cell--span-6">
@@ -76,20 +80,23 @@ class Loan extends Component {
               type='number'
               label="Trade-In"
               value={state.tradeIn}
-              onChange={(value) => this.onChange('tradeIn', value)}
+              min={0}
+              max={max}
+              onChange={(value) => this.onChange('tradeIn', +value)}
             ></TextField>
           </div>
           <div className="mdc-layout-grid__cell--span-12">
             <TextField
               type='number'
               label="APR"
+              min={0}
               value={state.apr}
-              onChange={(value) => this.onChange('apr', value)}
+              onChange={(value) => this.onChange('apr', +value)}
             ></TextField>
           </div>
           <div className="mdc-layout-grid__cell--span-12">
             <TextField
-              type='number'
+              regex='^\d+$'
               label="Post Code"
               value={state.postCode}
               onChange={(value) => this.onChange('postCode', value)}
@@ -110,7 +117,8 @@ class Loan extends Component {
 }
 
 Loan.propTypes = {
-  data: PropTypes.object,
+  msrp: PropTypes.number,
+  initial: PropTypes.object,
   onChange: PropTypes.func,
 };
 

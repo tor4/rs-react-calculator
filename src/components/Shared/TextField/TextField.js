@@ -8,6 +8,10 @@ class TextField extends Component {
   _node;
   _mdcComponent;
 
+  state = {
+    value: this.props.value,
+  };
+
   constructor(props) {
     super(props);
 
@@ -24,9 +28,15 @@ class TextField extends Component {
 
   onChange() {
     const value = this._mdcComponent.value;
-    this.props.onChange(value);
+    const valid = this._mdcComponent.valid;
 
-    return value;
+    this.setState({
+      value,
+    });
+
+    if (valid) {
+      this.props.onChange(value);
+    }
   }
 
   valueToString(value) {
@@ -42,7 +52,16 @@ class TextField extends Component {
   }
 
   render() {
-    const {label, type, value, leadingIcon} = this.props;
+    const {label, type, min, max, regex, leadingIcon, hint} = this.props;
+
+    let helpText; 
+    if (hint) {
+      helpText = (
+        <div className="mdc-text-field-helper-line">
+          <div className="mdc-text-field-helper-text" id="my-helper-id" aria-hidden="true">{hint}</div>
+        </div>
+      );
+    }
 
     return (
       <Fragment>
@@ -56,15 +75,17 @@ class TextField extends Component {
             className="mdc-text-field__input"
             type={type || 'text'}
             aria-labelledby="my-label-id"
-            value={this.valueToString(value)}
+            value={this.valueToString(this.state.value)}
             onChange={this.onChange}
+            min={min}
+            max={max}
+            step={type === 'number' ? '0.01' : undefined}
+            pattern={regex}
           ></input>
           <span className="mdc-floating-label" id="my-label-id">{label}</span>
           <div className="mdc-line-ripple"></div>
         </label>
-        <div className="mdc-text-field-helper-line">
-          <div className="mdc-text-field-helper-text" id="my-helper-id" aria-hidden="true">helper text</div>
-        </div>
+        {helpText}
       </Fragment>
     );
   }
@@ -73,6 +94,15 @@ class TextField extends Component {
 TextField.propTypes = {
   label: PropTypes.string,
   value: PropTypes.any,
+  min: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  max: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  regex: PropTypes.string,
   leadingIcon: PropTypes.string,
   hint: PropTypes.string,
 };
