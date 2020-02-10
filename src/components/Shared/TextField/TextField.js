@@ -52,7 +52,7 @@ class TextField extends Component {
   }
 
   render() {
-    const {label, type, min, max, regex, leadingIcon, hint} = this.props;
+    const {label, type, min, max, regex, leadingIcon, trailingIcon, hint} = this.props;
 
     let helpText; 
     if (hint) {
@@ -63,14 +63,37 @@ class TextField extends Component {
       );
     }
 
+    let lIcon;
+    if (leadingIcon) {
+      lIcon = (
+        <i 
+          className={`material-icons mdc-text-field__icon mdc-text-field__icon--leading ${leadingIcon}`}
+          tabindex="0"
+          role="button"
+        >i</i>
+      )
+    }
+
+    let tIcon;
+    if (trailingIcon) {
+      tIcon = (
+        <i className={`material-icons mdc-text-field__icon mdc-text-field__icon--trailing ${trailingIcon}`}
+          tabindex="0" 
+          role="button"
+        >i</i>
+      )
+    }
+
     return (
       <Fragment>
         <label className={`mdc-text-field rs-text-field
-          ${leadingIcon ? 'tmdc-text-field--with-leading-icon' : ''}`}
+          ${leadingIcon ? 'mdc-text-field--with-leading-icon' : ''}
+          ${trailingIcon ? 'mdc-text-field--with-trailing-icon' : ''}`
+          }
           ref={(c) => this._node = c}
         >
           <div className="mdc-text-field__ripple"></div>
-          {leadingIcon && <i className="material-icons mdc-text-field__icon">{leadingIcon}</i>}
+          {lIcon}
           <input 
             className="mdc-text-field__input"
             type={type || 'text'}
@@ -82,6 +105,7 @@ class TextField extends Component {
             step={type === 'number' ? '0.01' : undefined}
             pattern={regex}
           ></input>
+          {tIcon}
           <span className="mdc-floating-label" id="my-label-id">{label}</span>
           <div className="mdc-line-ripple"></div>
         </label>
@@ -104,6 +128,7 @@ TextField.propTypes = {
   ]),
   regex: PropTypes.string,
   leadingIcon: PropTypes.string,
+  trailingIcon: PropTypes.string,
   hint: PropTypes.string,
 };
 

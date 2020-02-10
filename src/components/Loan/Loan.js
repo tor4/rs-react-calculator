@@ -72,6 +72,7 @@ class Loan extends Component {
               value={state.downPayment}
               min={0}
               max={max}
+              leadingIcon='currency-usd'
               onChange={(value) => this.onChange('downPayment', +value)}
             ></TextField>
           </div>
@@ -82,6 +83,7 @@ class Loan extends Component {
               value={state.tradeIn}
               min={0}
               max={max}
+              leadingIcon='currency-usd'
               onChange={(value) => this.onChange('tradeIn', +value)}
             ></TextField>
           </div>
@@ -91,6 +93,7 @@ class Loan extends Component {
               label="APR"
               min={0}
               value={state.apr}
+              trailingIcon='percent'
               onChange={(value) => this.onChange('apr', +value)}
             ></TextField>
           </div>

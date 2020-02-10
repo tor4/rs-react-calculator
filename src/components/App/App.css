@@ -1,3 +1,11 @@
 .main {
   padding-top: 64px;
 }
+
+.currency-usd {
+  background: url(../../assets/currency-usd.svg) no-repeat center;
+}
+
+.percent {
+  background: url(../../assets/percent-outline.svg) no-repeat center;
+}
