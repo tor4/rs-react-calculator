@@ -8,24 +8,35 @@ class Select extends Component {
   _node;
   _mdcComponent;
 
+  constructor(props){
+    super(props);
+
+    this.onChange = this.onChange.bind(this);
+  }
+
   componentDidMount() {
     this._mdcComponent = new MDCSelect(this._node);
-    this._mdcComponent.listen('MDCSelect:change', this.onValueChanged);
+    this._mdcComponent.listen('MDCSelect:change', this.onChange);
   }
 
   componentWillUnmount() {
-    this._mdcComponent.unlisten('MDCSelect:change', this.onValueChanged);
+    this._mdcComponent.unlisten('MDCSelect:change', this.onChange);
     this._mdcComponent.destroy();
   }
 
-  onValueChanged({value}) {
-    this.props.onValueChanged(value);
+  onChange({detail: {value}}) {
+    this.props.onChange(value);
   }
 
   render() {
+    const {value: selected} = this.props;
+
     const items = this.props.items?.map((item, i) => {
       return (
-        <li className="mdc-list-item" 
+        <li
+          className={`mdc-list-item 
+            ${item.value === selected ? 'mdc-list-item--selected' : ''}`}
+          aria-selected={item.value === selected ? 'true' : ''}
           data-value={item.value}
           key={i}
         >
@@ -47,7 +58,6 @@ class Select extends Component {
 
         <div className="mdc-select__menu mdc-menu mdc-menu-surface">
           <ul className="mdc-list">
-            <li className="mdc-list-item mdc-list-item--selected" data-value="" aria-selected="true"></li>
             {items}
           </ul>
         </div>
@@ -58,14 +68,15 @@ class Select extends Component {
 
 Select.propTypes = {
   label: PropTypes.string,
+  value: PropTypes.any,
   items: PropTypes.arrayOf(PropTypes.object),
-  onValueChanged: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 Select.defaultProps = {
   label: '',
   items: [],
-  onValueChanged: () => {},
+  onChange: () => {},
 }
 
 export default Select;

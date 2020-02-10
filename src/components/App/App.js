@@ -64,8 +64,14 @@ class App extends Component {
       },
     });
 
+    this.calculate();
+  }
+
+  calculate() {
     if (this.state.activeTab === 'Loan') {
       this.calculateLoan();
+    } else {
+      this.calculateLease();
     }
   }
 
@@ -73,6 +79,8 @@ class App extends Component {
     this.setState({
       activeTab: this.tabs[index].name,
     });
+
+    this.calculate();
   }
 
   async calculateLoan(data) {
@@ -104,8 +112,33 @@ class App extends Component {
     });
   }
 
-  calculateLease(data) {
+  async calculateLease(data) {
+    if (data) {
+      this.setState({
+        calculator: {
+          lease: data,
+          loan: {
+            ...this.state.calculator.loan,
+            downPayment: data.downPayment,
+            tradeIn: data.tradeIn,
+            creditScore: data.creditScore,
+          },
+        },
+      });
+    }
 
+    const {monthlyPayment, taxes} = await calculateLease({
+      ...(data || this.state.calculator.lease),
+      msrp: this.state.info.msrp,
+    }, 1000);
+
+    this.setState({
+      info: {
+        ...this.state.info,
+        monthlyPayment,
+        taxes,
+      },
+    });
   }
 
   render() {

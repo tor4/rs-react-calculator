@@ -6,7 +6,7 @@ export function calculateLoan({
   return new DelayedPromise((resolve) => {
     const score = getCreditScoreValue(creditScore);
     const monthlyPayment =
-      (msrp - tradeIn - downPayment) / terms * score * apr;
+      (msrp - tradeIn - downPayment) / terms * score * (apr / 100);
 
     resolve({
       monthlyPayment: monthlyPayment.toFixed(2),
@@ -16,12 +16,12 @@ export function calculateLoan({
 };
 
 export function calculateLease({
-  msrp, tradeIn, downPayment, terms, creditScore, mileage, postCode,
+  msrp, tradeIn, downPayment, terms, creditScore, mileages, postCode,
 }) {
   return new DelayedPromise((resolve) => {
     const score = getCreditScoreValue(creditScore);
     const monthlyPayment =
-      (msrp - tradeIn - downPayment) * mileage / 10000 / terms * score;
+      (msrp - tradeIn - downPayment) * mileages / 10000 / terms * score;
     resolve({
       monthlyPayment: monthlyPayment.toFixed(2),
       taxes: calculateTaxes(postCode),
