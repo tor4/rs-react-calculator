@@ -30,7 +30,7 @@ class Lease extends Component {
       this.props.onChange({
         ...this.state,
       });
-    }, 300);
+    }, 400);
   }
 
   onChange(field, value) {

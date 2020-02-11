@@ -5,6 +5,39 @@ import Progress from '/src/components/Shared/Propgress/Progress.js';
 import './InfoCard.css';
 
 class InfoCard extends Component {
+  currencyFormat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      monthlyPayment: props.info?.monthlyPayment,
+    };
+  }
+
+  static getDerivedStateFromProps(newProps, prevState) {
+    if (newProps.info?.monthlyPayment !== prevState.monthlyPayment) {
+      return {
+        monthlyPayment: newProps.info.monthlyPayment,
+        animate: true,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate() {
+    if (this.state.animate) {
+      setTimeout(() => {
+        this.setState({
+          animate: false,
+        });
+      }, 500);
+    }
+  }
+
   render() {
     if (!this.props.info) return false;
 
@@ -23,7 +56,7 @@ class InfoCard extends Component {
           <div className="mdc-list-item rs-msrp">
             <span className="mdc-list-item__text">MSRP</span>
             <span className="mdc-list-item__meta" aria-hidden="true">
-              ${msrp}
+              {this.currencyFormat.format(msrp)}
             </span>
           </div>
           <div className="mdc-list-item">
@@ -31,8 +64,11 @@ class InfoCard extends Component {
           </div>
           <div className="mdc-list-item rs-monthly">
             <span className="mdc-list-item__text">Monthly payment</span>
-            <span className="mdc-list-item__meta" aria-hidden="true">
-              {!monthlyPayment ? '-' : '$' + monthlyPayment}
+            <span
+              className={`mdc-list-item__meta ${this.state.animate ? 'rs-animate' : ''}`}
+              aria-hidden="true"
+            >
+              {monthlyPayment && this.currencyFormat.format(monthlyPayment)}
             </span>
           </div>
           <div className="mdc-list-item">

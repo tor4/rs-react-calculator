@@ -6,7 +6,7 @@ export function calculateLoan({
   return new DelayedPromise((resolve) => {
     const score = getCreditScoreValue(creditScore);
     const monthlyPayment =
-      (msrp - tradeIn - downPayment) / terms * score * (apr / 100);
+      (msrp - tradeIn - downPayment) / terms * score * ((1 + apr / 100));
 
     resolve({
       monthlyPayment: monthlyPayment.toFixed(2),

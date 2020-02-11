@@ -22,7 +22,7 @@ class Loan extends Component {
       this.props.onChange({
         ...this.state,
       });
-    }, 300);
+    }, 400);
   }
 
   onChange(field, value) {
@@ -38,7 +38,7 @@ class Loan extends Component {
     const {msrp} = this.props;
     const max = ((msrp || 0)/4).toFixed(2);
 
-    const terms = [12, 24, 36, 48, 60, 72, 84].map((term, i) => {
+    const terms = [24, 36, 48, 60, 72].map((term, i) => {
       return (
         <Button
           key={i}
@@ -50,7 +50,7 @@ class Loan extends Component {
       );
     });
 
-    const creditScore = [600, 650, 700, 750, 800, 850, 900].map((score, i) => {
+    const creditScore = [600, 650, 700, 750, 800].map((score, i) => {
       return (
         <Button
           key={i}
@@ -107,11 +107,15 @@ class Loan extends Component {
           </div>
           <div className="mdc-layout-grid__cell--span-12">
             <h3 className="mdc-typography--subtitle1">Term (Month)</h3>
-            {terms}
+            <div className="rs-button-bar">
+              {terms}
+            </div>
           </div>
           <div className="mdc-layout-grid__cell--span-12">
             <h3 className="mdc-typography--subtitle1">Credit Score</h3>
-            {creditScore}
+            <div className="rs-button-bar">
+              {creditScore}
+            </div>
           </div>
         </div>
       </div>
