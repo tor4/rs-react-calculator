@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Progress from '/src/components/Shared/Propgress/Progress.js';
 
 import './InfoCard.css';
 
@@ -14,14 +13,14 @@ class InfoCard extends Component {
     super(props);
 
     this.state = {
-      monthlyPayment: props.info?.monthlyPayment,
+      monthlyPayment: props.monthlyPayment,
     };
   }
 
   static getDerivedStateFromProps(newProps, prevState) {
-    if (newProps.info?.monthlyPayment !== prevState.monthlyPayment) {
+    if (newProps.monthlyPayment !== prevState.monthlyPayment) {
       return {
-        monthlyPayment: newProps.info.monthlyPayment,
+        monthlyPayment: newProps.monthlyPayment,
         animate: true,
       };
     }
@@ -39,17 +38,7 @@ class InfoCard extends Component {
   }
 
   render() {
-    if (!this.props.info) return false;
-
-    if (this.props.info.fetching) {
-      return (
-        <div className="mdc-card">
-          <Progress></Progress>
-        </div>
-      );
-    }
-
-    const {msrp, name, monthlyPayment, taxes, dealer} = this.props.info;
+    const {msrp, name, monthlyPayment, taxes, dealer, imgSrc} = this.props;
     return (
       <div className="mdc-card">
         <div className="mdc-list mdc-list--non-interactive">
@@ -62,6 +51,7 @@ class InfoCard extends Component {
           <div className="mdc-list-item">
             <span className="mdc-list-item__text">{name}</span>
           </div>
+          <img src={imgSrc} alt={name}></img>
           <div className="mdc-list-item rs-monthly">
             <span className="mdc-list-item__text">Monthly payment</span>
             <span
@@ -74,7 +64,7 @@ class InfoCard extends Component {
           <div className="mdc-list-item">
             <span className="mdc-list-item__text">Taxes</span>
             <span className="mdc-list-item__meta" aria-hidden="true">
-              {taxes === 0 ? '-' : taxes.join('.')}
+              {taxes === 0 ? '-' : taxes?.join('.')}
             </span>
           </div>
           <div className="mdc-list-item">
@@ -99,7 +89,12 @@ class InfoCard extends Component {
 }
 
 InfoCard.propTypes = {
-  info: PropTypes.object,
+  monthlyPayment: PropTypes.string,
+  msrp: PropTypes.number,
+  name: PropTypes.string,
+  taxes: PropTypes.array,
+  dealer: PropTypes.object,
+  imgSrc: PropTypes.string,
 };
 
 export default InfoCard;

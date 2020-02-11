@@ -25,3 +25,7 @@
     transform:translateY(0)
   }
 }
+
+img {
+  width: 100%;
+}

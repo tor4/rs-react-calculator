@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import TabBar from '/src/components/Shared/TabBar/TabBar.js';
 import Loan from '/src/components/Loan/Loan.js';
 import Lease from '/src/components/Lease/Lease.js';
+import Progress from '/src/components/Shared/Propgress/Progress.js';
 import InfoCard from '/src/components/InfoCard/InfoCard.js';
 import DelayedPromise from '/src/utils/DelayedPromise.js';
 import {withStorage} from '/src/components/hoc/with-storage_hoc.js';
@@ -190,7 +191,7 @@ class App extends Component {
   }
 
   render() {
-    const {activeTab} = this.state;
+    const {activeTab, info} = this.state;
     let tabContent;
     if (activeTab === 'Loan') {
       tabContent = (
@@ -210,6 +211,13 @@ class App extends Component {
           onChange={this.calculateLease}
         ></Lease>
       );
+    }
+
+    let infoCard;
+    if (!info || info.fetching) {
+      infoCard = <Progress></Progress>;
+    } else {
+      infoCard = <InfoCard {...this.state.info}></InfoCard>;
     }
 
     return (
@@ -237,9 +245,7 @@ class App extends Component {
                 {tabContent}
               </div>
               <div className="mdc-layout-grid__cell--span-3">
-                <InfoCard
-                  info={this.state.info}
-                ></InfoCard>
+                {infoCard}
               </div>
               <div className="mdc-layout-grid__cell--span-2"></div>
             </div>
