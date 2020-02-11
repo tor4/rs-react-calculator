@@ -1,0 +1,31 @@
+.rs-msrp .mdc-list-item__meta {
+  font-size: 1.25rem;
+  color: var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.87));
+}
+
+.rs-monthly .mdc-list-item__meta {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--mdc-theme-secondary, rgba(0, 0, 0, 0.87))
+}
+
+.rs-animate {
+  animation: payment .5s;
+}
+
+@keyframes payment {
+  0% {
+    opacity:0;
+    -webkit-transform:translateY(-100%);
+    transform:translateY(-100%)
+  }
+  to {
+    opacity:1;
+    -webkit-transform:translateY(0);
+    transform:translateY(0)
+  }
+}
+
+img {
+  width: 100%;
+}

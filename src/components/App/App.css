@@ -1,0 +1,31 @@
+.main {
+  padding-top: 64px;
+}
+
+.currency-usd {
+  background: url(../../assets/currency-usd.svg) no-repeat center;
+}
+
+.percent {
+  background: url(../../assets/percent-outline.svg) no-repeat center;
+}
+
+.rs-button-bar {
+  display: flex;
+}
+
+.rs-button-bar .mdc-button {
+  flex: 1;
+  color: rgba(0,0,0,.87);
+  border-radius: 0;
+  border-color: rgba(0,0,0,.42);
+  border-right-width: 0;
+}
+
+.rs-button-bar .mdc-button--raised {
+  color: var(--mdc-theme-on-primary, #fff);
+}
+
+.rs-button-bar .mdc-button:last-child {
+  border-right-width: 1px;
+}
