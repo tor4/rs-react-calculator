@@ -31,11 +31,11 @@ class TabBar extends Component {
     const tabs = this.props.tabs?.map((tab, i) => {
       const isActive = tab.name === active || i === active;
       return (
-        <button 
-          className={`mdc-tab ${isActive ? 'mdc-tab--active' : ''}`} 
+        <button
+          className={`mdc-tab ${isActive ? 'mdc-tab--active' : ''}`}
           key={i}
-          role="tab" 
-          aria-selected="true" 
+          role="tab"
+          aria-selected="true"
           tabIndex="0"
         >
           <span className="mdc-tab__content">
@@ -75,7 +75,7 @@ TabBar.propTypes = {
 
 TabBar.defaultProps = {
   tabs: [],
-  onActiveChanged: () => {}
-}
+  onActiveChanged: () => {},
+};
 
 export default TabBar;

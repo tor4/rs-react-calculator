@@ -8,13 +8,12 @@ class TextField extends Component {
   _node;
   _mdcComponent;
 
-  state = {
-    value: this.props.value,
-  };
-
   constructor(props) {
     super(props);
 
+    this.state = {
+      value: this.props.value,
+    };
     this.onChange = this.onChange.bind(this);
   }
 
@@ -54,7 +53,7 @@ class TextField extends Component {
   render() {
     const {label, type, min, max, regex, leadingIcon, trailingIcon, hint} = this.props;
 
-    let helpText; 
+    let helpText;
     if (hint) {
       helpText = (
         <div className="mdc-text-field-helper-line">
@@ -66,35 +65,35 @@ class TextField extends Component {
     let lIcon;
     if (leadingIcon) {
       lIcon = (
-        <i 
+        <i
           className={`material-icons mdc-text-field__icon mdc-text-field__icon--leading ${leadingIcon}`}
-          tabindex="0"
+          tabIndex="0"
           role="button"
         >i</i>
-      )
+      );
     }
 
     let tIcon;
     if (trailingIcon) {
       tIcon = (
         <i className={`material-icons mdc-text-field__icon mdc-text-field__icon--trailing ${trailingIcon}`}
-          tabindex="0" 
+          tabIndex="0"
           role="button"
         >i</i>
-      )
+      );
     }
 
     return (
       <Fragment>
-        <label className={`mdc-text-field rs-text-field
-          ${leadingIcon ? 'mdc-text-field--with-leading-icon' : ''}
-          ${trailingIcon ? 'mdc-text-field--with-trailing-icon' : ''}`
-          }
+        <label
+          className={`mdc-text-field rs-text-field
+            ${leadingIcon ? 'mdc-text-field--with-leading-icon' : ''}
+            ${trailingIcon ? 'mdc-text-field--with-trailing-icon' : ''}`}
           ref={(c) => this._node = c}
         >
           <div className="mdc-text-field__ripple"></div>
           {lIcon}
-          <input 
+          <input
             className="mdc-text-field__input"
             type={type || 'text'}
             aria-labelledby="my-label-id"
@@ -117,6 +116,7 @@ class TextField extends Component {
 
 TextField.propTypes = {
   label: PropTypes.string,
+  type: PropTypes.string,
   value: PropTypes.any,
   min: PropTypes.oneOfType([
     PropTypes.string,
@@ -130,6 +130,7 @@ TextField.propTypes = {
   leadingIcon: PropTypes.string,
   trailingIcon: PropTypes.string,
   hint: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default TextField;

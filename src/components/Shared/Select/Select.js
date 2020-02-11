@@ -8,7 +8,7 @@ class Select extends Component {
   _node;
   _mdcComponent;
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.onChange = this.onChange.bind(this);
@@ -42,7 +42,7 @@ class Select extends Component {
         >
           {item.text}
         </li>
-      )
+      );
     });
 
     return (
@@ -77,6 +77,6 @@ Select.defaultProps = {
   label: '',
   items: [],
   onChange: () => {},
-}
+};
 
 export default Select;

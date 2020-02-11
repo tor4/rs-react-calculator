@@ -7,6 +7,7 @@ import DelayedPromise from '/src/utils/DelayedPromise.js';
 import {withStorage} from '/src/components/hoc/with-storage_hoc.js';
 import {calculateLoan, calculateLease} from '/src/utils/calculator_utils.js';
 import {getPostCode} from '/src/services/ip-info_service.js';
+import PropTypes from 'prop-types';
 
 import MockInfoData from '/src/data/info.js';
 import './App.css';
@@ -30,7 +31,7 @@ class App extends Component {
         postCode: '220100',
         terms: 36,
         mileages: 12000,
-      }
+      },
     },
     info: null,
   };
@@ -108,7 +109,7 @@ class App extends Component {
 
   async loadInfo() {
     this.setState({
-      info: {fetching: true,},
+      info: {fetching: true},
     });
 
     const infoData = await new DelayedPromise((resolve) => {
@@ -118,7 +119,6 @@ class App extends Component {
     this.setState({
       info: {
         ...infoData,
-        fetching: false,
       },
     });
   }
@@ -197,7 +197,7 @@ class App extends Component {
         <Loan
           key={this.state.initialized}
           msrp={this.state.info?.msrp}
-          initial={this.state.calculator.loan} 
+          initial={this.state.calculator.loan}
           onChange={this.calculateLoan}
         ></Loan>
       );
@@ -206,12 +206,12 @@ class App extends Component {
         <Lease
           key={this.state.initialized}
           msrp={this.state.info?.msrp}
-          initial={this.state.calculator.lease} 
+          initial={this.state.calculator.lease}
           onChange={this.calculateLease}
         ></Lease>
       );
     }
-    
+
     return (
       <Fragment>
         <header className="mdc-top-app-bar">
@@ -229,7 +229,7 @@ class App extends Component {
             <div className="mdc-layout-grid__inner">
               <div className="mdc-layout-grid__cell--span-2"></div>
               <div className="mdc-layout-grid__cell--span-5">
-                <TabBar 
+                <TabBar
                   active={this.state.activeTab}
                   tabs={this.tabs}
                   onActiveChanged={this.onActiveTabChanged}
@@ -252,5 +252,9 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  store: PropTypes.object,
+};
 
 export default withStorage(App);

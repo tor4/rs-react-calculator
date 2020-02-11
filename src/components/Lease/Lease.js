@@ -5,25 +5,25 @@ import TextField from '/src/components/Shared/TextField/TextField.js';
 import Select from '/src/components/Shared/Select/Select.js';
 
 class Lease extends Component {
-  state = {
-    downPayment: this.props.initial?.downPayment || 0,
-    tradeIn: this.props.initial?.tradeIn || 0,
-    creditScore: this.props.initial?.creditScore || 750,
-    mileages: this.props.initial?.mileages || 12000,
-    postCode: this.props.initial?.postCode || '220100',
-    terms: this.props.initial?.terms || 36,
-  }
-
   terms = [24, 36, 48].map((term) => ({text: term, value: term}));
 
   mileages = [10000, 12000, 15000]
-        .map((mileage) => ({text: mileage, value: mileage}));
+      .map((mileage) => ({text: mileage, value: mileage}));
 
   creditScore = [600, 650, 700, 750, 800, 850, 900]
-        .map((score) => ({text: score, value: score}))
+      .map((score) => ({text: score, value: score}))
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      downPayment: this.props.initial?.downPayment || 0,
+      tradeIn: this.props.initial?.tradeIn || 0,
+      creditScore: this.props.initial?.creditScore || 750,
+      mileages: this.props.initial?.mileages || 12000,
+      postCode: this.props.initial?.postCode || '220100',
+      terms: this.props.initial?.terms || 36,
+    };
 
     this.onChange = this.onChange.bind(this);
     this.dataChangedDebounced = debounce(() => {
@@ -80,9 +80,9 @@ class Lease extends Component {
             ></TextField>
           </div>
           <div className="mdc-layout-grid__cell--span-12">
-            <Select 
+            <Select
               label="Terms"
-              value={state.terms} 
+              value={state.terms}
               items={this.terms}
               onChange={(value) => this.onChange('terms', +value)}
             ></Select>

@@ -20,12 +20,12 @@ class Progress extends Component {
     }
 
     return (
-      <div 
-        role="progressbar" 
-        className="mdc-linear-progress mdc-linear-progress--indeterminate" 
-        aria-label="Progress Bar" 
-        aria-valuemin="0" 
-        aria-valuemax="1" 
+      <div
+        role="progressbar"
+        className="mdc-linear-progress mdc-linear-progress--indeterminate"
+        aria-label="Progress Bar"
+        aria-valuemin="0"
+        aria-valuemax="1"
         aria-valuenow="0"
         ref={(c) => this._node = c}
       >

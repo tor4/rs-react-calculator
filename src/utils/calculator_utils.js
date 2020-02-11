@@ -12,7 +12,7 @@ export function calculateLoan({
       monthlyPayment: monthlyPayment.toFixed(2),
       taxes: calculateTaxes(postCode),
     });
-  });
+  }, 500);
 };
 
 export function calculateLease({
@@ -26,7 +26,7 @@ export function calculateLease({
       monthlyPayment: monthlyPayment.toFixed(2),
       taxes: calculateTaxes(postCode),
     });
-  });
+  }, 500);
 }
 
 function calculateTaxes(postCode) {

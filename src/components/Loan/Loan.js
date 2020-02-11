@@ -5,17 +5,17 @@ import Button from '/src/components/Shared/Button/Button.js';
 import TextField from '/src/components/Shared/TextField/TextField.js';
 
 class Loan extends Component {
-  state = {
-    downPayment: this.props.initial?.downPayment || 0,
-    tradeIn: this.props.initial?.tradeIn || 0,
-    creditScore: this.props.initial?.creditScore || 750,
-    apr: this.props.initial?.apr || 0,
-    postCode: this.props.initial?.postCode || '220100',
-    terms: this.props.initial?.terms || 24,
-  }
-
   constructor(props) {
     super(props);
+
+    this.state = {
+      downPayment: this.props.initial?.downPayment || 0,
+      tradeIn: this.props.initial?.tradeIn || 0,
+      creditScore: this.props.initial?.creditScore || 750,
+      apr: this.props.initial?.apr || 0,
+      postCode: this.props.initial?.postCode || '220100',
+      terms: this.props.initial?.terms || 24,
+    };
 
     this.onChange = this.onChange.bind(this);
     this.dataChangedDebounced = debounce(() => {

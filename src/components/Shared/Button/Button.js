@@ -36,7 +36,7 @@ class Button extends Component {
 }
 
 Button.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.any,
   raised: PropTypes.bool,
   disabled: PropTypes.bool,
   outlined: PropTypes.bool,

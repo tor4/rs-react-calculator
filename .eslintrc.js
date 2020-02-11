@@ -1,28 +1,35 @@
 module.exports = {
-  'env': {
-    'browser': true,
-    'es6': true,
+  parser: 'babel-eslint',
+  env: {
+    browser: true,
+    es6: true,
   },
-  'extends': [
+  extends: [
     'plugin:react/recommended',
     'google',
   ],
-  'globals': {
-    'Atomics': 'readonly',
-    'SharedArrayBuffer': 'readonly',
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
   },
-  'parserOptions': {
-    'ecmaFeatures': {
-      'jsx': true,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
     },
-    'ecmaVersion': 2018,
-    'sourceType': 'module',
+    ecmaVersion: 2018,
+    sourceType: 'module',
   },
-  'plugins': [
+  plugins: [
     'react',
-    'class-property',
+    'no-async-without-await',
   ],
-  'rules': {
-    'require-jsdoc': 0
+  rules: {
+    'require-jsdoc': 0,
+    'max-len': [2, {
+      code: 120,
+      tabWidth: 2,
+      ignoreUrls: true,
+      ignorePattern: "^(import '|\\} from )"
+    }]
   },
 };
