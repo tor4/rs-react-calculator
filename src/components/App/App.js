@@ -4,6 +4,7 @@ import Loan from '/src/components/Loan/Loan.js';
 import Lease from '/src/components/Lease/Lease.js';
 import InfoCard from '/src/components/InfoCard/InfoCard.js';
 import DelayedPromise from '/src/utils/DelayedPromise.js';
+import {withStorage} from '/src/components/hoc/with-storage_hoc.js';
 import {calculateLoan, calculateLease} from '/src/utils/calculator_utils.js';
 import {getPostCode} from '/src/services/ip-info_service.js';
 
@@ -45,6 +46,7 @@ class App extends Component {
     this.onActiveTabChanged = this.onActiveTabChanged.bind(this);
     this.calculateLoan = this.calculateLoan.bind(this);
     this.calculateLease = this.calculateLease.bind(this);
+    this.saveData = this.saveData.bind(this);
   }
 
   async componentDidMount() {
@@ -52,6 +54,12 @@ class App extends Component {
     await this.loadInfo();
 
     this.calculate();
+
+    window.addEventListener('beforeunload', this.saveData);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.saveData);
   }
 
   calculate() {
@@ -62,7 +70,25 @@ class App extends Component {
     }
   }
 
+  saveData() {
+    this.props.store.saveData({
+      activeTab: this.state.activeTab,
+      calculator: this.state.calculator,
+    });
+  }
+
   async restoreData() {
+    const data = this.props.store.getData();
+
+    if (data) {
+      this.setState({
+        initialized: true,
+        ...data,
+      });
+
+      return;
+    }
+
     const postCode = await getPostCode();
 
     this.setState({
@@ -227,4 +253,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withStorage(App);
